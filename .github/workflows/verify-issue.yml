@@ -16,10 +16,31 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            echo context
-            /*github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '👋 Thanks for reporting!'
-            })*/
+              var pull = await github.issues.listEvents({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number 
+              });
+              isLinked=false;
+              if(pull.data){
+                pull.data.forEach(async item => {
+                  if (item.event == "connected"){
+                    var event = await github.issues.getEvent({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      event_id: item.id 
+                    }); 
+                    console.log(event);
+                    isLinked = true;
+                  }
+                });
+              }
+              if(isLinked){
+                console.log("is linked!");
+              }
+              else{
+                console.log("nope");
+              }
+              
+            
+
