@@ -20,11 +20,13 @@ jobs:
             let body = context.payload.pull_request.body;
             const re = /#(.*?)[\s]/g;
             const matches = body.match(re);
-            matches.forEach(match => {
-             var issueId = match.replace('#','').trim();
-             console.log("found hash in body!")
-             isLinked = true;
-            })
+            if(matches){
+              matches.forEach(match => {
+               var issueId = match.replace('#','').trim();
+               console.log("found hash in body!")
+               isLinked = true;
+              });
+            }
             if(!isLinked){
               let pull = await github.issues.listEvents({
                 owner: context.repo.owner,
