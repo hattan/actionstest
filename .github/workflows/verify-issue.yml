@@ -23,7 +23,9 @@ jobs:
               });
               isLinked=false;
               if(pull.data){
+                console.log(pull.data);
                 pull.data.forEach(item => {
+                  console.log(item);
                   if (item.event == "connected"){
                     isLinked = true;
                   }
