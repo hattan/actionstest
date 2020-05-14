@@ -45,10 +45,11 @@ jobs:
               }
             }
             if(isLinked){
-              console.log("is linked!");
+              console.log("Success! Linked Issue Found!");
             }
             else{
-              console.log("nope");
+              console.log("No Linked Issue Found!");
+              core.setFailed("No Linked Issue Found!");
             }
 
 
