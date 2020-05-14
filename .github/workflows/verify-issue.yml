@@ -23,7 +23,7 @@ jobs:
               });
               isLinked=false;
               if(pull.data){
-                pull.data.forEach(item => {
+                pull.data.forEach(async item => {
                   if (item.event == "connected"){
                     var event = await github.issues.getEvent({
                       owner: context.repo.owner,
