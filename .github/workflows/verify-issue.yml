@@ -23,14 +23,10 @@ jobs:
               });
               isLinked=false;
               if(pull.data){
-                pull.data.forEach(async item => {
+                console.log(pull.data);
+                pull.data.forEach(item => {
+                  console.log(item);
                   if (item.event == "connected"){
-                    var event = await github.issues.getEvent({
-                      owner: context.repo.owner,
-                      repo: context.repo.repo,
-                      event_id: item.id 
-                    }); 
-                    console.log(event);
                     isLinked = true;
                   }
                 });
