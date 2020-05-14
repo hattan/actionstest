@@ -16,12 +16,22 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-              var pull = await github.issues.listEvents({
+            let isLinked=false;
+            let body = context.payload.pull_request.body;
+            const re = /#(.*?)[\s]/g;
+            const matches = body.match(re);
+            matches.forEach(match => {
+             var issueId = match.replace('#','').trim();
+             console.log("found hash in body!")
+             isLinked = true;
+            })
+            if(!isLinked){
+              let pull = await github.issues.listEvents({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.payload.pull_request.number 
               });
-              isLinked=false;
+
               if(pull.data){
                 console.log(pull.data);
                 pull.data.forEach(item => {
@@ -31,12 +41,12 @@ jobs:
                   }
                 });
               }
-              if(isLinked){
-                console.log("is linked!");
-              }
-              else{
-                console.log("nope");
-              }
-              
-            
+            }
+            if(isLinked){
+              console.log("is linked!");
+            }
+            else{
+              console.log("nope");
+            }
+
 
