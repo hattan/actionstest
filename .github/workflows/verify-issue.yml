@@ -24,8 +24,7 @@ jobs:
               isLinked=false;
               if(pull.data){
                 pull.data.forEach(item => {
-                    isLinked = true;
-                  }
+                  isLinked = true;
                 });
               }
               if(isLinked){
