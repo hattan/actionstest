@@ -16,7 +16,7 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            console.log(context.payload.pull_request.body);
+            console.log(context.payload.pull_request);
             var pull = await github.issues.listEvents({
               owner: context.repo.owner,
               repo: context.repo.repo,
