@@ -21,5 +21,12 @@ jobs:
                 repo: context.repo.repo,
                 issue_number: context.payload.pull_request.number 
               });
-              console.log(pull)
+              if(pull.data){
+                if(event == "connected"){
+                  console.log("is linked!");
+                }
+                else{
+                console.log("nope");                
+                }
+             }
 
