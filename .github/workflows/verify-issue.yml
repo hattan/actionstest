@@ -16,7 +16,7 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            echo context
+            console.log(context)
             /*github.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
