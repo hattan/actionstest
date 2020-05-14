@@ -21,13 +21,20 @@ jobs:
                 repo: context.repo.repo,
                 issue_number: context.payload.pull_request.number 
               });
+              isLinked=false;
               if(pull.data){
-                if(pull.data[0].event == "connected"){
-                  console.log("is linked!");
-                }
-                else{
-                  console.log("nope");
-                }
+                pull.data.forEach(item => {
+                  if (item.event == "connected"){
+                    isLinked = true;
+                  }
+                });
               }
+              if(isLinked){
+                console.log("is linked!");
+              }
+              else{
+                console.log("nope");
+              }
+              
             
 
