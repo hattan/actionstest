@@ -23,8 +23,13 @@ jobs:
             if(matches){
               matches.forEach(match => {
                var issueId = match.replace('#','').trim();
-               console.log("found hash in body!")
-               isLinked = true;
+               let issue = github.issues.get({
+                 owner,
+                 repo,
+                 issueId,
+                });
+               if(issue)
+                 isLinked = true;
               });
             }
             if(!isLinked){
@@ -33,11 +38,8 @@ jobs:
                 repo: context.repo.repo,
                 issue_number: context.payload.pull_request.number 
               });
-
               if(pull.data){
-                console.log(pull.data);
                 pull.data.forEach(item => {
-                  console.log(item);
                   if (item.event == "connected"){
                     isLinked = true;
                   }
@@ -57,5 +59,6 @@ jobs:
                 body: 'Build Error! No Linked Issue found. Please link an issue or mention it in the body using #<issue_id>'
               })  
             }
+
 
 
