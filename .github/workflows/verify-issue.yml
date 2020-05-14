@@ -22,7 +22,7 @@ jobs:
                 issue_number: context.payload.pull_request.number 
               });
               if(pull.data){
-                if(event == "connected"){
+                if(pull.data[0].event == "connected"){
                   console.log("is linked!");
                 }
                 else{
