@@ -19,7 +19,14 @@ jobs:
               var pull = await github.issues.listEvents({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                issue_number: context.payload.pull_request.number
+                issue_number: context.payload.pull_request.number 
               });
-              console.log(pull)
+              if(pull.data){
+                if(event == "connected"){
+                  console.log("is linked!");
+                }
+                else{
+                console.log("nope");                
+                }
+             }
 
