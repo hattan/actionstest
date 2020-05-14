@@ -16,10 +16,11 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-              var pull = await github.issues.listEvents({
+              var pull = await github.issues.listEventsForTimeline({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.payload.pull_request.number,
+                mediaType.preview: true  
               });
               console.log(pull)
 
