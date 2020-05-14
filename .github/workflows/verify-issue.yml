@@ -19,7 +19,7 @@ jobs:
               var pull = await github.issues.get({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                pull_number: context.payload.pull_request.number,
+                issue_number: context.payload.pull_request.number,
               });
               console.log(pull)
 
