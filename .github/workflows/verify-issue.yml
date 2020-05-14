@@ -17,14 +17,22 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             let isLinked=false;
+            let invalidIssue=false;
             let body = context.payload.pull_request.body;
             const re = /#(.*?)[\s]/g;
             const matches = body.match(re);
             if(matches){
               matches.forEach(match => {
                var issueId = match.replace('#','').trim();
-               console.log("found hash in body!")
-               isLinked = true;
+               let issue = github.issues.get({
+                 owner: context.repo.owner,
+                 repo: context.repo.repo,
+                 issue_number: issueId,
+                });
+               if(issue){
+                 isLinked = true;
+                 invalidIssue=true;
+               }
               });
             }
             if(!isLinked){
@@ -33,11 +41,8 @@ jobs:
                 repo: context.repo.repo,
                 issue_number: context.payload.pull_request.number 
               });
-
               if(pull.data){
-                console.log(pull.data);
                 pull.data.forEach(item => {
-                  console.log(item);
                   if (item.event == "connected"){
                     isLinked = true;
                   }
@@ -50,6 +55,7 @@ jobs:
             else{
               console.log("No Linked Issue Found!");
               core.setFailed("No Linked Issue Found!");
+              let msg = invalidIssue ? 'Error! Issue found in body, but it is not a valid issue!': 'Error! No Linked Issue found. Please link an issue or mention it in the body using #<issue_id>'
               await github.issues.createComment({
                 issue_number: context.payload.pull_request.number,
                 owner: context.repo.owner,
@@ -57,5 +63,6 @@ jobs:
                 body: 'Build Error! No Linked Issue found. Please link an issue or mention it in the body using #<issue_id>'
               })  
             }
+
 
 
