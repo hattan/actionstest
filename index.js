@@ -1,6 +1,15 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 
+async function createComment(text){
+    await github.issues.createComment({
+        issue_number: text,
+        owner: context.repo.owner,
+        repo: context.repo.repo,
+        body: 'test 2'
+      }) 
+}
+
 try {
   // `who-to-greet` input defined in action metadata file
   const nameToGreet = core.getInput('who-to-greet');
@@ -11,12 +20,7 @@ try {
   const payload = JSON.stringify(github.context.payload, undefined, 2)
   console.log(`The event payload: ${payload}`);
 
-  await github.issues.createComment({
-      issue_number: '30',
-      owner: context.repo.owner,
-      repo: context.repo.repo,
-      body: 'test 2'
-    }) 
+  createComment("test");
 
 
 } catch (error) {
