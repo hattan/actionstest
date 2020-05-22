@@ -8,11 +8,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Hello world action step
+      - name: Verify Linked Issue
         uses: ./ 
-        id: hello
-        with:
-          who-to-greet: 'Mona the Octocat'
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Use the output from the `hello` step 
       - name: Get the output time
