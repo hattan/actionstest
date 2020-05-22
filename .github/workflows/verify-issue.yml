@@ -6,7 +6,7 @@
 # https://github.com/actions/labeler/blob/master/README.md
 
 name: VerifyIssue
-on: [pull_request]
+#on: [pull_request]
 
 jobs:
   verify-issue:
