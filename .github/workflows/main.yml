@@ -11,8 +11,6 @@ jobs:
       - name: Hello world action step
         uses: ./ 
         id: hello
-        env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           who-to-greet: 'Mona the Octocat'
 
