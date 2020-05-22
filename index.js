@@ -32,6 +32,4 @@ Toolkit.run(async tools => {
     core.setFailed(errorMessage + '\n\n' + err.message)
     tools.exit.failure()
   }
-}, {
-  secrets: ['GITHUB_TOKEN']
 })
