@@ -30,7 +30,7 @@ async function verifyLinkedIssue(tools) {
         github  = tools.github,
         log     = tools.log;
 
-  const linkedIssue = await checkBodyForValidIssue(context, github, log);
+  let linkedIssue = await checkBodyForValidIssue(context, github, log);
 
   if (!linkedIssue) {
     linkedIssue = await checkEventsListForConnectedEvent(context, github, log);
