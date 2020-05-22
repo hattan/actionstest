@@ -10,7 +10,7 @@ Toolkit.run(async tools => {
     }
 
     tools.log.debug('Starting Pull Request Verification!');
-    verifyLinkedIssue(tools);
+    await verifyLinkedIssue(tools);
     
   } catch (err) {
     tools.log.error(`An error occurred while creating the issue.`)
@@ -30,10 +30,10 @@ function verifyLinkedIssue(tools) {
         github  = tools.github,
         log     = tools.log;
 
-  const linkedIssue = checkBodyForValidIssue(context, github, log);
+  const linkedIssue = await checkBodyForValidIssue(context, github, log);
 
   if (!linkedIssue) {
-    linkedIssue = checkEventsListForConnectedEvent(context, github, log);
+    linkedIssue = await checkEventsListForConnectedEvent(context, github, log);
   }
 
   if(linkedIssue){
