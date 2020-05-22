@@ -27,12 +27,13 @@ Toolkit.run(async tools => {
 
 function verifyLinkedIssue(tools) {
   const context = tools.context,
-        github  = tools.github;
-        
-  const linkedIssue = checkBodyForValidIssue(context,github);
+        github  = tools.github,
+        log     = tools.log;
+
+  const linkedIssue = checkBodyForValidIssue(context, github, log);
 
   if (!linkedIssue) {
-    linkedIssue = checkEventsListForConnectedEvent(context,github);
+    linkedIssue = checkEventsListForConnectedEvent(context, github, log);
   }
 
   if(linkedIssue){
@@ -46,7 +47,7 @@ function verifyLinkedIssue(tools) {
   }
 }
 
-async function checkBodyForValidIssue(context,github){
+async function checkBodyForValidIssue(context, github, log){
   let body = context.payload.pull_request.body;
   const re = /#(.*?)[\s]/g;
   const matches = body.match(re);
@@ -59,6 +60,7 @@ async function checkBodyForValidIssue(context,github){
         issue_number: issueId,
       });
       if(issue){
+        log.success(`Found issue in PR Body ${issueId}`);
         return true;
       }
     });
@@ -76,6 +78,7 @@ async function checkEventsListForConnectedEvent(context, github){
   if(pull.data){
     pull.data.forEach(item => {
       if (item.event == "connected"){
+        log.success(`Found connected event.`);
         return true;
       }
     });
