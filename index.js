@@ -12,7 +12,7 @@ Toolkit.run(async tools => {
         issue_number: '30',
         owner: tools.context.repo.owner,
         repo: tools.context.repo.repo,
-        body: 'test 
+        body: 'test'
     }) 
     
 
