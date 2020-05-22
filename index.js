@@ -3,17 +3,14 @@ const core = require('@actions/core')
 const { Toolkit } = require('actions-toolkit')
 
 Toolkit.run(async tools => {
-  const context = tools.context,
-        github  = tools.github;
-
   try {
-    if(!context.payload.pull_request){
+    if(!tools.context.payload.pull_request){
         tools.log.warn('Not a pull request skipping verification!');
         return;
     }
 
     tools.log.debug('Starting Pull Request Verification!');
-    verifyLinkedIssue(context,github);
+    verifyLinkedIssue(tools);
     
   } catch (err) {
     tools.log.error(`An error occurred while creating the issue.`)
@@ -28,7 +25,10 @@ Toolkit.run(async tools => {
   secrets: ['GITHUB_TOKEN']
 });
 
-function verifyLinkedIssue(context,github) {
+function verifyLinkedIssue(tools) {
+  const context = tools.context,
+        github  = tools.github;
+        
   const linkedIssue = checkBodyForValidIssue(context,github);
 
   if (!linkedIssue) {
@@ -66,8 +66,8 @@ async function checkBodyForValidIssue(context,github){
   return false;
 }
 
-async function checkEventsListForConnectedEvent(){
-  let pull = await tools.github.issues.listEvents({
+async function checkEventsListForConnectedEvent(context, github){
+  let pull = await github.issues.listEvents({
     owner: context.repo.owner,
     repo: context.repo.repo,
     issue_number: context.payload.pull_request.number 
