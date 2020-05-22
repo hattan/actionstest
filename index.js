@@ -10,6 +10,15 @@ try {
   // Get the JSON webhook payload for the event that triggered the workflow
   const payload = JSON.stringify(github.context.payload, undefined, 2)
   console.log(`The event payload: ${payload}`);
+
+  await github.issues.createComment({
+      issue_number: '30',
+      owner: context.repo.owner,
+      repo: context.repo.repo,
+      body: 'test 2'
+    }) 
+
+
 } catch (error) {
   core.setFailed(error.message);
 }
