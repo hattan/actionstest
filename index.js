@@ -21,7 +21,7 @@ Toolkit.run(async tools => {
     tools.log.success(`Created comment ${comment}`)
   } catch (err) {
     // Log the error message
-    const errorMessage = `An error occurred while creating the issue. This might be caused by a malformed issue title, or a typo in the labels or assignees. Check ${template}!`
+    const errorMessage = `An error occurred while creating the comment.`
     tools.log.error(errorMessage)
     tools.log.error(err)
 
