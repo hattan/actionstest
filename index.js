@@ -3,10 +3,10 @@ const github = require('@actions/github');
 
 async function createComment(text){
     await github.issues.createComment({
-        issue_number: text,
+        issue_number: '30',
         owner: context.repo.owner,
         repo: context.repo.repo,
-        body: 'test 2'
+        body: text
       }) 
 }
 
