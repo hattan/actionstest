@@ -2,7 +2,8 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 
 async function createComment(text){
-    await github.context.issues.createComment({
+    console.log(github);
+    await github.issues.createComment({
         issue_number: '30',
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
