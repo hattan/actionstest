@@ -54,9 +54,11 @@ async function checkBodyForValidIssue(context, github, log){
   const matches = body.match(re);
   log.debug(`regex matches: ${matches}`)
   if(matches){
-    asyncForEach(matches, async match => {
-      var issueId = match.replace('#','').trim();
+    for(let i=0,len=matches.length;i<leni++;){
+      let match = matches[i];
+      let issueId = match.replace('#','').trim();
       log.debug(`verfiying match is a valid issue issueId: ${issueId}`)
+
       let issue = await github.issues.get({
         owner: context.repo.owner,
         repo: context.repo.repo,
@@ -67,7 +69,7 @@ async function checkBodyForValidIssue(context, github, log){
         log.debug(`Found issue in PR Body ${issueId}`);
         return true;
       }
-    });
+    }
   }
   return false;
 }
