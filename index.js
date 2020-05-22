@@ -5,7 +5,7 @@ const { Toolkit } = require('actions-toolkit')
 Toolkit.run(async tools => {
   
   try {
-    if(!context.payload.pull_request){
+    if(!tools.context.payload.pull_request){
         tools.log.warn('Not a pull request skipping verification!');
         return;
     }
