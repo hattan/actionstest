@@ -49,16 +49,20 @@ async function verifyLinkedIssue(tools) {
 
 async function checkBodyForValidIssue(context, github, log){
   let body = context.payload.pull_request.body;
+  log.debug(`Checking PR Body: ${body}`)
   const re = /#(.*?)[\s]/g;
   const matches = body.match(re);
+  log.debug(`regex matches: ${matches}`)
   if(matches){
     matches.forEach(match => {
       var issueId = match.replace('#','').trim();
+      log.debug(`verfiying match is a valid issue issueId: ${issueId}`)
       let issue = github.issues.get({
         owner: context.repo.owner,
         repo: context.repo.repo,
         issue_number: issueId,
       });
+      log.debug(`issue: ${issue}`)
       if(issue){
         log.debug(`Found issue in PR Body ${issueId}`);
         return true;
@@ -76,6 +80,7 @@ async function checkEventsListForConnectedEvent(context, github){
   });
 
   if(pull.data){
+    log.debug(`Checking events: ${pull.data}`)
     pull.data.forEach(item => {
       if (item.event == "connected"){
         log.debug(`Found connected event.`);
