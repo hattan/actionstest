@@ -1,29 +1,37 @@
-const core = require('@actions/core');
-const github = require('@actions/github');
+ 
+const core = require('@actions/core')
+const { Toolkit } = require('actions-toolkit')
 
-async function createComment(text){
-    console.log(github);
-    await github.issues.createComment({
+Toolkit.run(async tools => {
+  // Get the file
+  tools.log.debug('Initialize test')
+
+  // Create the new issue
+  try {
+    let comment = await tools.github.issues.createComment({
         issue_number: '30',
-        owner: github.context.repo.owner,
-        repo: github.context.repo.repo,
-        body: text
-      }) 
-}
-
-try {
-  // `who-to-greet` input defined in action metadata file
-  const nameToGreet = core.getInput('who-to-greet');
-  console.log(`Hello ${nameToGreet}!`);
-  const time = (new Date()).toTimeString();
-  core.setOutput("time", time);
-  // Get the JSON webhook payload for the event that triggered the workflow
-  const payload = JSON.stringify(github.context.payload, undefined, 2)
-  console.log(`The event payload: ${payload}`);
-
-  createComment("test");
+        owner: tools.context.repo.owner,
+        repo: tools.context.repo.repo,
+        body: 'test 
+    }) 
+    
 
 
-} catch (error) {
-  core.setFailed(error.message);
-}
+   
+    tools.log.success(`Created comment ${comment}`)
+  } catch (err) {
+    // Log the error message
+    const errorMessage = `An error occurred while creating the issue. This might be caused by a malformed issue title, or a typo in the labels or assignees. Check ${template}!`
+    tools.log.error(errorMessage)
+    tools.log.error(err)
+
+    // The error might have more details
+    if (err.errors) tools.log.error(err.errors)
+
+    // Exit with a failing status
+    core.setFailed(errorMessage + '\n\n' + err.message)
+    tools.exit.failure()
+  }
+}, {
+  secrets: ['GITHUB_TOKEN']
+})
