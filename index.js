@@ -13,70 +13,81 @@ Toolkit.run(async tools => {
     }
 
     tools.log.debug('Starting Pull Request Verification!');
-
-    let isLinked=false;
-    let invalidIssue=false;
-    let body = context.payload.pull_request.body;
-    const re = /#(.*?)[\s]/g;
-    const matches = body.match(re);
-
-    if(matches){
-        matches.forEach(match => {
-            var issueId = match.replace('#','').trim();
-            let issue = github.issues.get({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: issueId,
-            });
-            if(issue){
-                isLinked = true;
-                invalidIssue=true;
-            }
-        });
-    }
-
-    if(!isLinked){
-        let pull = await tools.github.issues.listEvents({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            issue_number: context.payload.pull_request.number 
-        });
-        if(pull.data){
-        pull.data.forEach(item => {
-            if (item.event == "connected"){
-            isLinked = true;
-            }
-        });
-        }
-    }
-
-    if(isLinked){
-        tools.log.success("Success! Linked Issue Found!");
-    }
-    else{
-        await github.issues.createComment({
-            issue_number: context.payload.pull_request.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: 'Build Error! No Linked Issue found. Please link an issue or mention it in the body using #<issue_id>'
-        });
-        tools.log.error("No Linked Issue Found!");
-        core.setFailed("No Linked Issue Found!");
-        tools.exit.failure() 
-    }
+    verifyLinkedIssue(context,github);
+    
   } catch (err) {
-    // Log the error message
-    const errorMessage = `An error occurred while creating the issue.`
-    tools.log.error(errorMessage)
+    tools.log.error(`An error occurred while creating the issue.`)
     tools.log.error(err)
 
-    // The error might have more details
     if (err.errors) tools.log.error(err.errors)
 
-    // Exit with a failing status
     core.setFailed(errorMessage + '\n\n' + err.message)
     tools.exit.failure()
   }
 }, {
   secrets: ['GITHUB_TOKEN']
-})
+});
+
+function verifyLinkedIssue(context,github) {
+  const linkedIssue = checkBodyForValidIssue(context,github);
+
+  if (!linkedIssue) {
+    linkedIssue = checkEventsListForConnectedEvent(context,github);
+  }
+
+  if(linkedIssue){
+      tools.log.success("Success! Linked Issue Found!");
+  }
+  else{
+      createMissingIssueComment(context,github);
+      tools.log.error("No Linked Issue Found!");
+      core.setFailed("No Linked Issue Found!");
+      tools.exit.failure() 
+  }
+}
+
+async function checkBodyForValidIssue(context,github){
+  let body = context.payload.pull_request.body;
+  const re = /#(.*?)[\s]/g;
+  const matches = body.match(re);
+  if(matches){
+    matches.forEach(match => {
+      var issueId = match.replace('#','').trim();
+      let issue = github.issues.get({
+        owner: context.repo.owner,
+        repo: context.repo.repo,
+        issue_number: issueId,
+      });
+      if(issue){
+        return true;
+      }
+    });
+  }
+  return false;
+}
+
+async function checkEventsListForConnectedEvent(){
+  let pull = await tools.github.issues.listEvents({
+    owner: context.repo.owner,
+    repo: context.repo.repo,
+    issue_number: context.payload.pull_request.number 
+  });
+
+  if(pull.data){
+    pull.data.forEach(item => {
+      if (item.event == "connected"){
+        return true;
+      }
+    });
+  }
+  return false;
+}
+
+async function createMissingIssueComment(context,github) {
+  await github.issues.createComment({
+    issue_number: context.payload.pull_request.number,
+    owner: context.repo.owner,
+    repo: context.repo.repo,
+    body: 'Build Error! No Linked Issue found. Please link an issue or mention it in the body using #<issue_id>'
+  });
+}
