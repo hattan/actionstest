@@ -25,7 +25,7 @@ Toolkit.run(async tools => {
   secrets: ['GITHUB_TOKEN']
 });
 
-function verifyLinkedIssue(tools) {
+async function verifyLinkedIssue(tools) {
   const context = tools.context,
         github  = tools.github,
         log     = tools.log;
