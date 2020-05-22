@@ -54,7 +54,7 @@ async function checkBodyForValidIssue(context, github, log){
   const matches = body.match(re);
   log.debug(`regex matches: ${matches}`)
   if(matches){
-    matches.forEach(async match => {
+    asyncForEach(matches, async match => {
       var issueId = match.replace('#','').trim();
       log.debug(`verfiying match is a valid issue issueId: ${issueId}`)
       let issue = await github.issues.get({
@@ -99,3 +99,10 @@ async function createMissingIssueComment(context,github) {
     body: 'Build Error! No Linked Issue found. Please link an issue or mention it in the body using #<issue_id>'
   });
 }
+
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+}
+
