@@ -57,7 +57,7 @@ async function checkBodyForValidIssue(context, github, log){
     matches.forEach(match => {
       var issueId = match.replace('#','').trim();
       log.debug(`verfiying match is a valid issue issueId: ${issueId}`)
-      let issue = github.issues.get({
+      let issue = await github.issues.get({
         owner: context.repo.owner,
         repo: context.repo.repo,
         issue_number: issueId,
@@ -72,7 +72,7 @@ async function checkBodyForValidIssue(context, github, log){
   return false;
 }
 
-async function checkEventsListForConnectedEvent(context, github){
+async function checkEventsListForConnectedEvent(context, github, log){
   let pull = await github.issues.listEvents({
     owner: context.repo.owner,
     repo: context.repo.repo,
