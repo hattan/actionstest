@@ -37,11 +37,11 @@ function verifyLinkedIssue(tools) {
   }
 
   if(linkedIssue){
-      tools.log.success("Success! Linked Issue Found!");
+      log.success("Success! Linked Issue Found!");
   }
   else{
       createMissingIssueComment(context,github);
-      tools.log.error("No Linked Issue Found!");
+      log.error("No Linked Issue Found!");
       core.setFailed("No Linked Issue Found!");
       tools.exit.failure() 
   }
@@ -60,7 +60,7 @@ async function checkBodyForValidIssue(context, github, log){
         issue_number: issueId,
       });
       if(issue){
-        log.success(`Found issue in PR Body ${issueId}`);
+        log.debug(`Found issue in PR Body ${issueId}`);
         return true;
       }
     });
@@ -78,7 +78,7 @@ async function checkEventsListForConnectedEvent(context, github){
   if(pull.data){
     pull.data.forEach(item => {
       if (item.event == "connected"){
-        log.success(`Found connected event.`);
+        log.debug(`Found connected event.`);
         return true;
       }
     });
