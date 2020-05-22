@@ -3,12 +3,15 @@ const core = require('@actions/core')
 const { Toolkit } = require('actions-toolkit')
 
 Toolkit.run(async tools => {
-  
+  const context = tools.context,
+        github  = tools.github;
+
   try {
-    if(!tools.context.payload.pull_request){
+    if(!context.payload.pull_request){
         tools.log.warn('Not a pull request skipping verification!');
         return;
     }
+
     tools.log.debug('Starting Pull Request Verification!');
 
     let isLinked=false;
@@ -34,9 +37,9 @@ Toolkit.run(async tools => {
 
     if(!isLinked){
         let pull = await tools.github.issues.listEvents({
-        owner: tools.context.repo.owner,
-        repo: tools.context.repo.repo,
-        issue_number: tools.context.payload.pull_request.number 
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.payload.pull_request.number 
         });
         if(pull.data){
         pull.data.forEach(item => {
