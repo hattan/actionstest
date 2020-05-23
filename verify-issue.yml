@@ -16,7 +16,7 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            let isLinked=false;
+            /*let isLinked=false;
             let invalidIssue=false;
             let body = context.payload.pull_request.body;
             const re = /#(.*?)[\s]/g;
@@ -62,7 +62,7 @@ jobs:
                 repo: context.repo.repo,
                 body: 'Build Error! No Linked Issue found. Please link an issue or mention it in the body using #<issue_id>'
               })  
-            }
+            }*/
 
 
 
