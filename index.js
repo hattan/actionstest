@@ -2,9 +2,6 @@
 const core = require('@actions/core')
 const { Toolkit } = require('actions-toolkit')
 
-/*
-Simple Change 1
-*/
 Toolkit.run(async tools => {
   try {
     if(!tools.context.payload.pull_request){
@@ -12,15 +9,15 @@ Toolkit.run(async tools => {
         return;
     }
 
-    tools.log.debug('Starting Pull Request Verification!');
+    tools.log.debug('Starting Linked Issue Verification!');
     await verifyLinkedIssue(tools);
     
   } catch (err) {
-    tools.log.error(`An error occurred while creating the issue.`)
+    tools.log.error(`Error verifying linked issue.`)
     tools.log.error(err)
 
     if (err.errors) tools.log.error(err.errors)
-    const errorMessage = "Error verifying linked issue"
+    const errorMessage = "Error verifying linked issue."
     core.setFailed(errorMessage + '\n\n' + err.message)
     tools.exit.failure()
   }
@@ -52,7 +49,7 @@ async function verifyLinkedIssue(tools) {
 
 async function checkBodyForValidIssue(context, github, log){
   let body = context.payload.pull_request.body;
-  log.debug(`Checking PR Body: ${body}`)
+  log.debug(`Checking PR Body: "${body}"`)
   const re = /#(.*?)[\s]/g;
   const matches = body.match(re);
   log.debug(`regex matches: ${matches}`)
@@ -76,7 +73,6 @@ async function checkBodyForValidIssue(context, github, log){
       catch{
         log.debug(`#${issueId} is not a valid issue.`);
       }
-
     }
   }
   return false;
