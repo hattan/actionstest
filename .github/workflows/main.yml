@@ -12,4 +12,9 @@ jobs:
       - name: Verify Linked Issue
         uses: ./ 
         env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Hello hello_world_job
+        runs: echo "Hello World"
+
+    
