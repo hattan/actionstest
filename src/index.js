@@ -64,7 +64,6 @@ async function checkBodyForValidIssue(context, github, log){
           repo: context.repo.repo,
           issue_number: issueId,
         });
-        log.debug(`issue: ${issue}`)
         if(issue){
           log.debug(`Found issue in PR Body ${issueId}`);
           return true;
