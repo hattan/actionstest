@@ -1,18 +1,18 @@
-on: [push]
+name: VerifyIssue
+
+on:
+  pull_request:
+  check_run:
+  pull_request:
+    types: [edited]
+
 
 jobs:
   hello_world_job:
     runs-on: ubuntu-latest
     name: A job to say hello
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
       - name: Verify Linked Issue
-        uses: ./ 
-        env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # Use the output from the `hello` step 
-      - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+      uses: hattan/verify-linked-issue-action@v1.1.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
