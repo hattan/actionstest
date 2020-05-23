@@ -16,4 +16,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          filename: '.github/VERIFY_PR_COMMENT_TEMPLATE.md'
+          filename: 'template.txt'
