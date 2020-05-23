@@ -2,6 +2,7 @@
 const core = require('@actions/core')
 const { Toolkit } = require('actions-toolkit')
 
+// test 1
 Toolkit.run(async tools => {
   try {
     if(!tools.context.payload.pull_request){
