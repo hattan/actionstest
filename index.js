@@ -54,7 +54,7 @@ async function checkBodyForValidIssue(context, github, log){
   const matches = body.match(re);
   log.debug(`regex matches: ${matches}`)
   if(matches){
-    for(let i=0,len=matches.length;i<leni++;){
+    for(let i=0,len=matches.length;i<len;i++){
       let match = matches[i];
       let issueId = match.replace('#','').trim();
       log.debug(`verfiying match is a valid issue issueId: ${issueId}`)
