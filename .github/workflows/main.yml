@@ -2,9 +2,9 @@ name: VerifyIssue
 
 on:
   pull_request:
+    types: [edited, synchronize, opened, reopened]
   check_run:
-  pull_request:
-    types: [edited]
+
 
 
 jobs:
