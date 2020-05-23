@@ -2,8 +2,10 @@ name: VerifyIssue
 
 on:
   pull_request:
-  issues:
+  check_run:
+  pull_request:
     types: [edited]
+
 
 jobs:
   hello_world_job:
