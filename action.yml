@@ -1,15 +1,16 @@
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'Web Validate'
+description: 'Web Validate (WebV) is a web request validation tool that can be used to run integration tests and long-running smoke tests.'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  server:  
+    description: 'Base URL to validate'
     required: true
-    default: 'World'
-outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  filename:
+    description: 'WebV Test files (json)'
+    required: true
+
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.who-to-greet }}
+    - ${{ inputs.server }}
+    - ${{ inputs.filename }}
