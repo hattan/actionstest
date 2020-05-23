@@ -2,7 +2,7 @@ name: VerifyIssue
 
 on:
   pull_request:
-  issue_comment:
+  issues:
     types: [edited]
 
 jobs:
