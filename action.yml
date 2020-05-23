@@ -1,13 +1,8 @@
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'Verify Linked Issue'
+description: 'A GitHub action that verifies a pull request contains a reference to an issue.'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
-    required: true
-    default: 'World'
-outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  filename:
+      description: The name of the file to use as the comment template for pull requests with no linked issues.
 runs:
   using: 'node12'
-  main: 'index.js'
+  main: 'src/index.js'
