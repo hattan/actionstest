@@ -3,7 +3,7 @@ const core = require('@actions/core')
 const { Toolkit } = require('actions-toolkit')
 
 /*
-Simple Change
+Simple Change 1
 */
 Toolkit.run(async tools => {
   try {
@@ -20,7 +20,7 @@ Toolkit.run(async tools => {
     tools.log.error(err)
 
     if (err.errors) tools.log.error(err.errors)
-
+    const errorMessage = "Error verifying linked issue"
     core.setFailed(errorMessage + '\n\n' + err.message)
     tools.exit.failure()
   }
