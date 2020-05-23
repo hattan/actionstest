@@ -61,17 +61,22 @@ async function checkBodyForValidIssue(context, github, log){
       let match = matches[i];
       let issueId = match.replace('#','').trim();
       log.debug(`verfiying match is a valid issue issueId: ${issueId}`)
-
-      let issue = await github.issues.get({
-        owner: context.repo.owner,
-        repo: context.repo.repo,
-        issue_number: issueId,
-      });
-      log.debug(`issue: ${issue}`)
-      if(issue){
-        log.debug(`Found issue in PR Body ${issueId}`);
-        return true;
+      try{
+        let issue = await github.issues.get({
+          owner: context.repo.owner,
+          repo: context.repo.repo,
+          issue_number: issueId,
+        });
+        log.debug(`issue: ${issue}`)
+        if(issue){
+          log.debug(`Found issue in PR Body ${issueId}`);
+          return true;
+        }
       }
+      catch{
+        log.debug(`#${issueId} is not a valid issue.`);
+      }
+
     }
   }
   return false;
