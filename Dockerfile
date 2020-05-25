@@ -1,11 +1,12 @@
 FROM retaildevcrew/webvalidate:beta
 
+USER root
+
 WORKDIR /app
 
 
 # Copies your code file from your action repository to the filesystem path `/` of the container
 COPY entrypoint.sh ./entrypoint.sh
-
 
 #ENTRYPOINT ["sleep","300"]
 #ENTRYPOINT [ "dotnet", "--list-runtimes" ]
