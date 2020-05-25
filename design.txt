@@ -1,0 +1,20 @@
+
+url
+
+- name: Validate Staging
+  uses: hattan/web-validate@v1
+  env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  with:
+    filename: 'webv/staging.json'
+    server: 'http://localhost:8080'
+
+docker
+- name: Validate Staging
+  uses: hattan/web-validate@v1
+  env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  with:
+    dockerNetwork: foo
+    filename: 'webv/staging.json'
+    server: 'http://localhost:8080'

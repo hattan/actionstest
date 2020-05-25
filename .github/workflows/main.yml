@@ -1,19 +1,18 @@
-name: 
-on: 
-  pull_request:
-    types: [edited, synchronize, opened, reopened]
+name: Docker Test
+on: [push]
 
 jobs:
   hello_world_job:
     runs-on: ubuntu-latest
-    name: Verify Linked Issue
+    name: A job to say hello
     steps:
+      # To use this repository's private action,
+      # you must check out the repository
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Verify Linked Issue
-        uses: hattan/verify-linked-issue-action@v1.1.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Web Validate step
+        uses: ./ 
         with:
-          filename: 'comment.txt'
+          server: 'https://www.microsoft.com'
+          filename: 'msft.json'
