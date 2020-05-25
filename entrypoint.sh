@@ -8,6 +8,6 @@ echo "server = $server filename=$filename"
 
 cd /app
 
-dotnet /app/webvalidate.dll --host $server --files $filename
+dotnet /app/webvalidate.dll --server $server --files $filename
 
 cd /github/workspace
