@@ -6,7 +6,7 @@ filename=$2
 
 echo "server = $server filename=$filename"
 
-dotnet /app/webvalidate --host https://www.microsoft.com --files msft.json
+dotnet /app/webvalidate.dll --host https://www.microsoft.com --files msft.json
 
 ##dotnet --list-runtimes
 
