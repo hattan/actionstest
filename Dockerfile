@@ -1,4 +1,4 @@
-FROM retaildevcrew/webvalidate:beta
+FROM retaildevcrew/webvalidate
 
 WORKDIR /app
 

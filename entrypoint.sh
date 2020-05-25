@@ -4,4 +4,6 @@ server=$1
 filename=$2
 
 
-dotnet webvalidate.dll --server $1 -- files $2
+echo "server = $server filename=$filename"
+
+dotnet webvalidate.dll --host $server --files $filename
