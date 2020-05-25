@@ -7,8 +7,8 @@ filename=$2
 echo "server = $server filename=$filename"
 
 #sleep 300
-pushd /app
+cd /app
 
 dotnet /app/webvalidate.dll --host https://www.microsoft.com --files msft.json
 
-popd
+cd /github/workspace
