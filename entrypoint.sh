@@ -10,6 +10,14 @@ cp /github/workspace/TestFiles/$filename /app/TestFiles/$filename
 
 cd /app
 
-dotnet /app/webvalidate.dll --server $server --files $filename
+result=$(dotnet /app/webvalidate.dll --server $server --files $filename)
+if [[ "$result" == *"Errors"* ]]; then
+  echo -e "\e[31mWeb Validate Error:\e[0m"
+  echo "$result"
+  exit -1
+else
+  echo "$result"
+  exit 0
+fi
 
 cd /github/workspace
