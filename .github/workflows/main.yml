@@ -13,7 +13,6 @@ jobs:
 
       - name: Web Validate step
         uses: ./ 
-        id: webv
         with:
           server: 'https://www.microsoft.com'
           filename: 'msft.json'

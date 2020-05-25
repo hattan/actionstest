@@ -10,7 +10,7 @@ inputs:
 
 runs:
   using: 'docker'
-  image: 'Dockerfile'
+  image: 'action/Dockerfile'
   args:
     - ${{ inputs.server }}
     - ${{ inputs.filename }}
