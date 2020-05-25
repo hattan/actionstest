@@ -11,8 +11,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Web Validate step
-        uses: ./ 
+      - name: Web Validate
+        uses: hattan/wevvalidate@v1.1.0
         with:
           server: 'https://www.microsoft.com'
           filename: 'msft.json'
+
+     # - name: Web Validate step
+     #   uses: ./ 
+     #   with:
+     #     server: 'https://www.microsoft.com'
+     #     filename: 'msft.json'
