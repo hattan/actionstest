@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Web Validate
-        uses: hattan/webvalidate@v1.1.0
+        uses: hattan/webvalidate-action@v0.5.0
         with:
           server: 'https://www.microsoft.com'
           filename: 'msft.json'
